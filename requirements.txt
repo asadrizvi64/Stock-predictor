@@ -1,0 +1,9 @@
+pandas
+sklearn
+datetime
+finnhub-python
+flask
+joblib
+dash
+requests
+time
