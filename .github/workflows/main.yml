@@ -1,0 +1,42 @@
+name: Python application
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m venv .env
+        source .env/bin/activate
+        pip install -r requirements.txt
+
+    - name: Run finnubapi.py
+      run: |
+        source .env/bin/activate
+        python finnubapi.py
+
+    - name: Run model.py
+      run: |
+        source .env/bin/activate
+        python model.py
+
+    - name: Run app.py
+      run: |
+        source .env/bin/activate
+        python app.py
+
+    - name: Check code quality
+      run: |
+        source .env/bin/activate
+        pylint finnubapi.py model.py app.py
