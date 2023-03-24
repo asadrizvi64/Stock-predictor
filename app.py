@@ -7,32 +7,24 @@ from flask_cors import CORS
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import load_model
+from tensorflow import keras
 from finnubapi import get_stock_data
 
 app = Flask(__name__)
 CORS(app)
 
-model = load_model('model.h5')
+model = keras.models.load_model('model.h5')
 
 df = pd.read_csv('AAPL_daily_candles.csv')
 x_test = df.iloc[-30:, 0].values.reshape(-1, 30, 1)
 y_test = df.iloc[-30:, 1].values
 
-
 @app.route('/')
 def home():
-    """
-    Renders the home page of the app.
-    """
     return render_template('index.html')
-
 
 @app.route('/predict')
 def predict():
-    """
-    Predicts the stock price for the next day based on the last 30 days of stock data.
-    """
     # load the latest data from the CSV file
     df = pd.read_csv('AAPL_daily_candles.csv')
 
@@ -52,9 +44,6 @@ def predict():
     mse = np.mean(np.square(y_pred - y_test))
     mae = np.mean(np.abs(y_pred - y_test))
     accuracy = (1 - mae) * 100
-
-    # get the last data point from the test data
-    last_close = y_test[-1]
 
     # get the prediction for the next day
     next_day_prediction = model.predict(x_test[-1].reshape(1, 30, 1))[0][0]
