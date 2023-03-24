@@ -19,7 +19,6 @@ df_ = pd.read_csv('AAPL_daily_candles.csv')
 
 @app.route('/')
 def home():
-    
     """
     Renders the 'index.html' template, which serves as the homepage for the application.
 
@@ -31,12 +30,12 @@ def home():
     return render_template('index.html')
 
 @app.route('/predict')
-def predict():
-    
+def predict():    
     """
-    Load the latest data from a CSV file, prepare the data for training and testing the machine learning model,
-    train the model, make predictions on the test data, calculate the mean squared error (MSE) and mean absolute error (MAE),
-    calculate the accuracy, and return a JSON response containing the accuracy, MSE, and a prediction for the next day.
+    Load the latest data from a CSV file, prepare the data for training and testing the
+    machine learning model, train the model, make predictions on the test data,
+    calculate the mean squared error (MSE) and mean absolute error (MAE), calculate the accuracy,
+    and return a JSON response containing the accuracy, MSE, and a prediction for the next day.
 
     Returns:
     JSON: A JSON response containing the accuracy, MSE, and a prediction for the next day.
