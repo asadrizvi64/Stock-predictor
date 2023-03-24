@@ -65,24 +65,24 @@ train_scaled = scaler.fit_transform(train_df)
 test_scaled = scaler.transform(test_df)
 
 # function to create input/output sequences
-def create_sequences(data, SEQ_LENGTH):
+def create_sequences(data, seq_len):
     """ The create_sequences function creates sequences for training
     the model by taking the input data and sequence length as arguments.
     It returns the input sequence X_ and the corresponding output sequence y_.
     The X_ and y_ arrays are created by looping over the data array and
     appending the values to the arrays.
     """
-    x_ = []
-    y_ = []
-    for i in range(SEQ_LENGTH, len(data)):
-        x_.append(data[i-SEQ_LENGTH:i, 0])
-        y_.append(data[i, 0])
-    return np.array(x_), np.array(y_)
+    x = []
+    y = []
+    for i in range(seq_len, len(data)):
+        x.append(data[i-seq_len:i, 0])
+        y.append(data[i, 0])
+    return np.array(x), np.array(y)
 
 # create input/output sequences for train and test sets
-SEQ_LENGTH = 30
-X_train, y_train = create_sequences(train_scaled, SEQ_LENGTH)
-X_test, y_test = create_sequences(test_scaled, SEQ_LENGTH)
+seq_length = 30
+X_train, y_train = create_sequences(train_scaled, seq_length)
+X_test, y_test = create_sequences(test_scaled, seq_length)
 
 # reshape the input data for LSTM
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
@@ -90,7 +90,7 @@ X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
 # build the LSTM model
 model = Sequential()
-model.add(LSTM(50, activation='relu', input_shape=(SEQ_LENGTH, 1)))
+model.add(LSTM(50, activation='relu', input_shape=(seq_length, 1)))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 
@@ -105,8 +105,8 @@ print(f'Test loss: {score}')
 y_pred = model.predict(X_test)
 
 # create a dataframe to store the predictions and actual values
-pred_df = pd.DataFrame({'ds': test_df.index[SEQ_LENGTH:],
-                        'y_true': test_df['y'].values[SEQ_LENGTH:],
+pred_df = pd.DataFrame({'ds': test_df.index[seq_length:],
+                        'y_true': test_df['y'].values[seq_length:],
                         'y_pred': y_pred.reshape(-1)})
 
 # convert the date column back to datetime format
