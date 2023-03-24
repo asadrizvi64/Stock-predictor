@@ -7,11 +7,10 @@ The module requires `tensorflow` and `pandas` packages to be installed.
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM
+from tensorflow import Sequential
+from tensorflow import Dense, LSTM
 import finnhub
-"""
-The `train_model` function takes the following parameters:
+""" The `train_model` function takes the following parameters:
 - `symbol`: a string representing the stock symbol to train the model on
 - `interval`: a string representing the interval of the historical stock prices, 
               e.g. "1d" for daily or "1h" for hourly
@@ -27,8 +26,8 @@ Example usage:
 finnhub_client = finnhub.Client(api_key="cgcvrtpr01qum7u5pd7gcgcvrtpr01qum7u5pd80")
 
 # define the stock symbol and time interval
-symbol = 'AAPL'
-interval = 'D'
+Symbol = 'AAPL'
+Interval = 'D'
 
 # retrieve historical stock data from FinnHub API
 res = finnhub_client.stock_candles(symbol, interval, 1590988249, 1622524249)
@@ -66,18 +65,24 @@ train_scaled = scaler.fit_transform(train_df)
 test_scaled = scaler.transform(test_df)
 
 # function to create input/output sequences
-def create_sequences(data, seq_length):
-    X = []
-    y = []
-    for i in range(seq_length, len(data)):
-        X.append(data[i-seq_length:i, 0])
-        y.append(data[i, 0])
-    return np.array(X), np.array(y)
+def create_sequences(data, Seq_length):
+""" The create_sequences function creates sequences for training
+    the model by taking the input data and sequence length as arguments.
+    It returns the input sequence X_ and the corresponding output sequence y_.
+    The X_ and y_ arrays are created by looping over the data array and
+    appending the values to the arrays.
+"""
+    X_ = []
+    y_ = []
+    for i in range(Seq_length, len(data)):
+        X_.append(data[i-Seq_length:i, 0])
+        y_.append(data[i, 0])
+    return np.array(X_), np.array(y_)
 
 # create input/output sequences for train and test sets
-seq_length = 30
-X_train, y_train = create_sequences(train_scaled, seq_length)
-X_test, y_test = create_sequences(test_scaled, seq_length)
+Seq_length = 30
+X_train, y_train = create_sequences(train_scaled, Seq_length)
+X_test, y_test = create_sequences(test_scaled, Seq_length)
 
 # reshape the input data for LSTM
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
