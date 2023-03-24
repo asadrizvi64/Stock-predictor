@@ -10,7 +10,9 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 import finnhub
-"""- `Symbol`: a string representing the stock symbol to train the model on
+"""
+The `train_model` function takes the following parameters:
+- `Symbol`: a string representing the stock symbol to train the model on
 - `Interval`: a string representing the Interval of the historical stock prices, 
               e.g. "1d" for daily or "1h" for hourly
 - `seq_length`: an integer representing the length of the input sequence for the RNN model
