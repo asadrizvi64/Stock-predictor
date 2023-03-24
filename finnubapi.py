@@ -1,8 +1,23 @@
+"""
+Module to retrieve stock data from the Finnhub API.
+"""
+
+import time
 import requests
 import pandas as pd
-import time
+
 
 def get_stock_data(api_key, symbol):
+    """
+    Retrieve stock data for a given symbol using the Finnhub API.
+
+    Args:
+        api_key (str): The API key for the Finnhub API.
+        symbol (str): The stock symbol to retrieve data for.
+
+    Returns:
+        pandas.DataFrame: A DataFrame containing the stock data.
+    """
     # Define the API endpoint and parameters
     endpoint = 'https://finnhub.io/api/v1/stock/candle'
     resolution = 'D'
@@ -14,14 +29,14 @@ def get_stock_data(api_key, symbol):
     now = int(pd.Timestamp.now().timestamp())
     from_time = now - (86400 * 365)
     params = {
-    'symbol': 'AAPL',
-    'resolution': 'D',
-    'from': int(time.time()) - 86400*30, # 86400 seconds in a day
-    'to': int(time.time()),
-    'token': 'cgcvrtpr01qum7u5pd7gcgcvrtpr01qum7u5pd80'
+        'symbol': symbol,
+        'resolution': resolution,
+        'from': from_time,
+        'to': now,
+        'token': api_key
     }
 
-    response = requests.get(endpoint, params=params)
+    response = requests.get(endpoint, params=params, timeout=10)
 
     # Check if API request was successful
     if response.status_code != 200:
