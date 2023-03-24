@@ -11,8 +11,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 import finnhub
 """ The `train_model` function takes the following parameters:
-- `symbol`: a string representing the stock symbol to train the model on
-- `interval`: a string representing the interval of the historical stock prices, 
+- `Symbol`: a string representing the stock symbol to train the model on
+- `Interval`: a string representing the Interval of the historical stock prices, 
               e.g. "1d" for daily or "1h" for hourly
 - `seq_length`: an integer representing the length of the input sequence for the RNN model
 - `epochs`: an integer representing the number of epochs to train the model for
@@ -25,12 +25,12 @@ Example usage:
 # connect to FinnHub API
 finnhub_client = finnhub.Client(api_key="cgcvrtpr01qum7u5pd7gcgcvrtpr01qum7u5pd80")
 
-# define the stock symbol and time interval
+# define the stock symbol and time Interval
 Symbol = 'AAPL'
 Interval = 'D'
 
 # retrieve historical stock data from FinnHub API
-res = finnhub_client.stock_candles(Symbol, interval, 1590988249, 1622524249)
+res = finnhub_client.stock_candles(Symbol, Interval, 1590988249, 1622524249)
 
 # convert the response to a pandas dataframe
 df = pd.DataFrame(res)
