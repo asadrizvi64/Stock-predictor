@@ -27,7 +27,7 @@ def home():
     return render_template('index.html')
 
 @app.route('/predict')
-def predict():    
+def predict():
     """
     Load the latest data from a CSV file, prepare the data for training and testing the
     machine learning model, train the model, make predictions on the test data,
