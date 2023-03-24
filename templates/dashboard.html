@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stock Prediction Dashboard</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+	<style>
+		canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+</head>
+<body>
+	<h1>Stock Prediction Dashboard</h1>
+	<div>
+		<h2>Live Data</h2>
+		<p>Current Stock Price: <span id="current_price"></span></p>
+		<p>Prediction for Next Day: <span id="next_day_prediction"></span></p>
+	</div>
+	<div>
+		<h2>Model Metrics</h2>
+		<p>Accuracy: <span id="accuracy"></span></p>
+		<p>Mean Squared Error: <span id="mse"></span></p>
+		<p>Mean Absolute Error: <span id="mae"></span></p>
+		<canvas id="chart"></canvas>
+	</div>
+	<script>
+		// Get the data from the Flask app
+		fetch('/data')
+			.then(response => response.json())
+			.then(data => {
+				// Display the live data
+				document.getElementById('current_price').innerText = data.current_price;
+				document.getElementById('next_day_prediction').innerText = data.next_day_prediction;
+
+				// Display the model metrics
+				document.getElementById('accuracy').innerText = data.accuracy.toFixed(2) + '%';
+				document.getElementById('mse').innerText = data.mse.toFixed(2);
+				document.getElementById('mae').innerText = data.mae.toFixed(2);
+
+				// Display the chart
+				var ctx = document.getElementById('chart').getContext('2d');
+				var chart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: data.dates,
+						datasets: [
+							{
+								label: 'Actual Price',
+								data: data.actual_prices,
+								borderColor: 'blue',
+								fill: false
+							},
+							{
+								label: 'Predicted Price',
+								data: data.predicted_prices,
+								borderColor: 'red',
+								fill: false
+							}
+						]
+					},
+					options: {}
+				});
+			});
+	</script>
+</body>
+</html>
