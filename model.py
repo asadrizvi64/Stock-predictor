@@ -6,10 +6,9 @@ The module requires `tensorflow` and `pandas` packages to be installed.
 """
 import pandas as pd
 import numpy as np
-import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
-from tf.keras.models import Sequential
-from tf.keras.layers import Dense, LSTM
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, LSTM
 import finnhub
 """ The `train_model` function takes the following parameters:
 - `Symbol`: a string representing the stock symbol to train the model on
