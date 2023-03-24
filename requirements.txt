@@ -6,7 +6,6 @@ flask
 joblib
 dash
 requests
-sklearn
 scikit-learn
 tensorflow
 flask-cors
