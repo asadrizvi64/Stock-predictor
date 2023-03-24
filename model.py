@@ -26,11 +26,11 @@ Example usage:
 finnhub_client = finnhub.Client(api_key="cgcvrtpr01qum7u5pd7gcgcvrtpr01qum7u5pd80")
 
 # define the stock symbol and time Interval
-Symbol = 'AAPL'
-Interval = 'D'
+SYMBOL = 'AAPL'
+INTERVAL = 'D'
 
 # retrieve historical stock data from FinnHub API
-res = finnhub_client.stock_candles(Symbol, Interval, 1590988249, 1622524249)
+res = finnhub_client.stock_candles(SYMBOL, INTERVAL, 1590988249, 1622524249)
 
 # convert the response to a pandas dataframe
 df = pd.DataFrame(res)
@@ -65,24 +65,24 @@ train_scaled = scaler.fit_transform(train_df)
 test_scaled = scaler.transform(test_df)
 
 # function to create input/output sequences
-def create_sequences(data, Seq_length):
+def create_sequences(data, SEQ_LENGTH):
     """ The create_sequences function creates sequences for training
     the model by taking the input data and sequence length as arguments.
     It returns the input sequence X_ and the corresponding output sequence y_.
     The X_ and y_ arrays are created by looping over the data array and
     appending the values to the arrays.
     """
-    X_ = []
+    x_ = []
     y_ = []
-    for i in range(Seq_length, len(data)):
-        X_.append(data[i-Seq_length:i, 0])
+    for i in range(SEQ_LENGTH, len(data)):
+        x_.append(data[i-SEQ_LENGTH:i, 0])
         y_.append(data[i, 0])
-    return np.array(X_), np.array(y_)
+    return np.array(x_), np.array(y_)
 
 # create input/output sequences for train and test sets
-Seq_length = 30
-X_train, y_train = create_sequences(train_scaled, Seq_length)
-X_test, y_test = create_sequences(test_scaled, Seq_length)
+SEQ_LENGTH = 30
+X_train, y_train = create_sequences(train_scaled, SEQ_LENGTH)
+X_test, y_test = create_sequences(test_scaled, SEQ_LENGTH)
 
 # reshape the input data for LSTM
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
@@ -90,7 +90,7 @@ X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
 # build the LSTM model
 model = Sequential()
-model.add(LSTM(50, activation='relu', input_shape=(Seq_length, 1)))
+model.add(LSTM(50, activation='relu', input_shape=(SEQ_LENGTH, 1)))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 
@@ -105,7 +105,7 @@ print(f'Test loss: {score}')
 y_pred = model.predict(X_test)
 
 # create a dataframe to store the predictions and actual values
-pred_df = pd.DataFrame({'ds': test_df.index[Seq_length:], 'y_true': test_df['y'].values[Seq_length:], 'y_pred': y_pred.reshape(-1)})
+pred_df = pd.DataFrame({'ds': test_df.index[SEQ_LENGTH:], 'y_true': test_df['y'].values[SEQ_LENGTH:], 'y_pred': y_pred.reshape(-1)})
 
 # convert the date column back to datetime format
 pred_df['ds'] = pd.to_datetime(pred_df['ds'])
