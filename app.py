@@ -1,3 +1,7 @@
+"""
+This module contains the Flask app for stock prediction.
+"""
+
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -15,12 +19,20 @@ df = pd.read_csv('AAPL_daily_candles.csv')
 x_test = df.iloc[-30:, 0].values.reshape(-1, 30, 1)
 y_test = df.iloc[-30:, 1].values
 
+
 @app.route('/')
 def home():
+    """
+    Renders the home page of the app.
+    """
     return render_template('index.html')
+
 
 @app.route('/predict')
 def predict():
+    """
+    Predicts the stock price for the next day based on the last 30 days of stock data.
+    """
     # load the latest data from the CSV file
     df = pd.read_csv('AAPL_daily_candles.csv')
 
@@ -52,4 +64,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
