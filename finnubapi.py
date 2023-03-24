@@ -2,7 +2,6 @@
 Module to retrieve stock data from the Finnhub API.
 """
 
-import time
 import requests
 import pandas as pd
 
@@ -45,15 +44,15 @@ def get_stock_data(api_key, symbol):
 
     # Load the API response data into a Pandas DataFrame
     data = response.json()
-    df = pd.DataFrame({features[i]: data[i] for i in range(len(features))})
+    df_ = pd.DataFrame({features[i]: data[i] for i in range(len(features))})
 
     # Rename the timestamp column and set it as the DataFrame index
-    df = df.rename(columns={'t': 'Timestamp'}).set_index('Timestamp')
+    df_ = df_.rename(columns={'t': 'Timestamp'}).set_index('Timestamp')
 
     # Convert the timestamp from Unix time to a Pandas DateTime object
-    df.index = pd.to_datetime(df.index, unit='s')
+    df_.index = pd.to_datetime(df_.index, unit='s')
 
     # Sort the DataFrame by timestamp in ascending order
-    df = df.sort_index()
+    df_ = df_.sort_index()
 
-    return df
+    return df_
