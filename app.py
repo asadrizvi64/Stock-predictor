@@ -2,11 +2,10 @@
 This module contains the Flask app for stock prediction.
 """
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, jsonify
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
-import tensorflow as tf
 from tensorflow import keras
 from finnubapi import get_stock_data
 
@@ -15,24 +14,39 @@ CORS(app)
 
 model = keras.models.load_model('model.h5')
 
-df = pd.read_csv('AAPL_daily_candles.csv')
-x_test = df.iloc[-30:, 0].values.reshape(-1, 30, 1)
-y_test = df.iloc[-30:, 1].values
+# load the latest data from the CSV file
+df_ = pd.read_csv('AAPL_daily_candles.csv')
 
 @app.route('/')
 def home():
+    
+    """
+    Renders the 'index.html' template, which serves as the homepage for the application.
+
+    Returns:
+    --------
+    str:
+        The rendered HTML content of the 'index.html' template.
+    """
     return render_template('index.html')
 
 @app.route('/predict')
 def predict():
-    # load the latest data from the CSV file
-    df = pd.read_csv('AAPL_daily_candles.csv')
+    
+    """
+    Load the latest data from a CSV file, prepare the data for training and testing the machine learning model,
+    train the model, make predictions on the test data, calculate the mean squared error (MSE) and mean absolute error (MAE),
+    calculate the accuracy, and return a JSON response containing the accuracy, MSE, and a prediction for the next day.
+
+    Returns:
+    JSON: A JSON response containing the accuracy, MSE, and a prediction for the next day.
+    """
 
     # use the last 30 rows for testing and the rest for training
-    x_train = df.iloc[:-30, 0].values.reshape(-1, df.iloc[:-30, 0].shape[0], 1)
-    y_train = df.iloc[:-30, 1].values
-    x_test = df.iloc[-30:, 0].values.reshape(-1, df.iloc[-30:, 0].shape[0], 1)
-    y_test = df.iloc[-30:, 1].values
+    x_train = df_.iloc[:-30, 0].values.reshape(-1, df_.iloc[:-30, 0].shape[0], 1)
+    y_train = df_.iloc[:-30, 1].values
+    x_test = df_.iloc[-30:, 0].values.reshape(-1, df_.iloc[-30:, 0].shape[0], 1)
+    y_test = df_.iloc[-30:, 1].values
 
     # train the model on the training data
     model.fit(x_train, y_train, epochs=10)
