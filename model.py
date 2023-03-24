@@ -10,8 +10,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 import finnhub
-""" The `train_model` function takes the following parameters:
-- `Symbol`: a string representing the stock symbol to train the model on
+"""- `Symbol`: a string representing the stock symbol to train the model on
 - `Interval`: a string representing the Interval of the historical stock prices, 
               e.g. "1d" for daily or "1h" for hourly
 - `seq_length`: an integer representing the length of the input sequence for the RNN model
@@ -72,12 +71,12 @@ def create_sequences(data, seq_len):
     The X_ and y_ arrays are created by looping over the data array and
     appending the values to the arrays.
     """
-    x = []
-    y = []
+    eks = []
+    wei = []
     for i in range(seq_len, len(data)):
-        x.append(data[i-seq_len:i, 0])
-        y.append(data[i, 0])
-    return np.array(x), np.array(y)
+        eks.append(data[i-seq_len:i, 0])
+        wei.append(data[i, 0])
+    return np.array(eks), np.array(wei)
 
 # create input/output sequences for train and test sets
 seq_length = 30
