@@ -10,3 +10,4 @@ sklearn
 scikit-learn
 tensorflow
 flask-cors
+pylint
