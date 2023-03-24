@@ -66,12 +66,12 @@ test_scaled = scaler.transform(test_df)
 
 # function to create input/output sequences
 def create_sequences(data, Seq_length):
-""" The create_sequences function creates sequences for training
+    """ The create_sequences function creates sequences for training
     the model by taking the input data and sequence length as arguments.
     It returns the input sequence X_ and the corresponding output sequence y_.
     The X_ and y_ arrays are created by looping over the data array and
     appending the values to the arrays.
-"""
+    """
     X_ = []
     y_ = []
     for i in range(Seq_length, len(data)):
