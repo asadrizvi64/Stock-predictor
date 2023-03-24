@@ -30,7 +30,7 @@ Symbol = 'AAPL'
 Interval = 'D'
 
 # retrieve historical stock data from FinnHub API
-res = finnhub_client.stock_candles(symbol, interval, 1590988249, 1622524249)
+res = finnhub_client.stock_candles(Symbol, interval, 1590988249, 1622524249)
 
 # convert the response to a pandas dataframe
 df = pd.DataFrame(res)
