@@ -105,7 +105,9 @@ print(f'Test loss: {score}')
 y_pred = model.predict(X_test)
 
 # create a dataframe to store the predictions and actual values
-pred_df = pd.DataFrame({'ds': test_df.index[SEQ_LENGTH:], 'y_true': test_df['y'].values[SEQ_LENGTH:], 'y_pred': y_pred.reshape(-1)})
+pred_df = pd.DataFrame({'ds': test_df.index[SEQ_LENGTH:],
+                        'y_true': test_df['y'].values[SEQ_LENGTH:],
+                        'y_pred': y_pred.reshape(-1)})
 
 # convert the date column back to datetime format
 pred_df['ds'] = pd.to_datetime(pred_df['ds'])
