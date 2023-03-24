@@ -7,11 +7,8 @@ from flask_cors import CORS
 import pandas as pd
 import numpy as np
 from tensorflow import keras
-from finnubapi import get_stock_data
-
 app = Flask(__name__)
 CORS(app)
-
 model = keras.models.load_model('model.h5')
 
 # load the latest data from the CSV file
