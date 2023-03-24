@@ -90,7 +90,7 @@ X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
 # build the LSTM model
 model = Sequential()
-model.add(LSTM(50, activation='relu', input_shape=(seq_length, 1)))
+model.add(LSTM(50, activation='relu', input_shape=(Seq_length, 1)))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 
@@ -105,7 +105,7 @@ print(f'Test loss: {score}')
 y_pred = model.predict(X_test)
 
 # create a dataframe to store the predictions and actual values
-pred_df = pd.DataFrame({'ds': test_df.index[seq_length:], 'y_true': test_df['y'].values[seq_length:], 'y_pred': y_pred.reshape(-1)})
+pred_df = pd.DataFrame({'ds': test_df.index[Seq_length:], 'y_true': test_df['y'].values[Seq_length:], 'y_pred': y_pred.reshape(-1)})
 
 # convert the date column back to datetime format
 pred_df['ds'] = pd.to_datetime(pred_df['ds'])
