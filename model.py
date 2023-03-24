@@ -1,10 +1,28 @@
+"""
+The `model` module provides a function to train a recurrent neural network model on
+historical stock prices and make predictions for future prices.
+
+The module requires `tensorflow` and `pandas` packages to be installed.
+"""
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 import finnhub
+"""
+The `train_model` function takes the following parameters:
+- `symbol`: a string representing the stock symbol to train the model on
+- `interval`: a string representing the interval of the historical stock prices, 
+              e.g. "1d" for daily or "1h" for hourly
+- `seq_length`: an integer representing the length of the input sequence for the RNN model
+- `epochs`: an integer representing the number of epochs to train the model for
+- `batch_size`: an integer representing the batch size to use during training
 
+The function returns the trained Keras model.
+
+Example usage:
+"""
 # connect to FinnHub API
 finnhub_client = finnhub.Client(api_key="cgcvrtpr01qum7u5pd7gcgcvrtpr01qum7u5pd80")
 
