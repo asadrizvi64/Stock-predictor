@@ -9,3 +9,4 @@ scikit-learn
 tensorflow
 flask-cors
 pylint
+keras
